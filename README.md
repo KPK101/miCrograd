@@ -1,0 +1,2 @@
+# miCrograd
+Micrograd in C++!
