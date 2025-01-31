@@ -4,7 +4,7 @@
 #include <unordered_set>
 #include <list>
 #include <stack>
-
+#include<math.h>
 
 class Value {
     // public data members
@@ -28,6 +28,25 @@ class Value {
             // use initializer list to assign values to _prev 
             this->_prev = std::set<Value*>(_children);
         }
+
+        // Define destructor
+        ~Value(){
+            // No explicit cleanup is needed!
+        }
+
+        // Overload << operator for representing Value object
+        friend std::ostream& operator<<(std::ostream& os, const Value& v){
+            os<<"Value(data="<<v.data<<", grad="<<v.grad<<", op='"<<v._op<<"')";
+            return os;
+        }
+
+        // Display children
+        void displayPrev(){
+            std::cout<<"Prev of Value(data="<<this->data<<"):"<<std::endl;
+            for(auto child : this->_prev){
+                std::cout<<"\t"<<*child<<std::endl;
+            }
+        };
 
         // Operator overloading for addition
         Value operator+(Value& other) {
@@ -87,11 +106,29 @@ class Value {
             // std::stack<Value*> stack;
 
             auto build_topo = [&](Value* v){
-                
+                // COMPLETE!
             };
 
         };
 
-
-
 };
+
+
+int main(){
+    Value a(2.0);
+    Value b(3.0);
+    Value c = a+b;
+    Value d = a*b;
+    Value e = d*c;
+    Value f = e.relu();
+    Value g = (f.relu() + d.relu())*b;
+    std::cout << c << std::endl;
+    std::cout << d << std::endl;
+    std::cout << e << std::endl;
+    std::cout << f << std::endl;
+    g.displayPrev();
+    
+    
+    
+    return 0;
+}
